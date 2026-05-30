@@ -1,0 +1,57 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'frontend/**'
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: starttech-v2-frontend-ll3mku
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Security Scan
+      run: npm audit --audit-level=high
+
+    - name: Run Tests
+      run: npm test -- --passWithNoTests
+
+    - name: Build React App
+      run: npm run build
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Deploy to S3
+      run: |
+        aws s3 sync build/ s3://${{ env.S3_BUCKET }} --delete
+
+    - name: Invalidate CloudFront Cache
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} \
+          --paths "/*"
