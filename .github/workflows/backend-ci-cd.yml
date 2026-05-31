@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: starttech-backend
-  ASG_NAME: starttech-v2-asg
+  ASG_NAME: starttech-prod-asg
 
 jobs:
   build-test-deploy:
