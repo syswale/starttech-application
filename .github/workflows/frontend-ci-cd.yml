@@ -25,9 +25,9 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '22.12'
+        node-version: '22'
         cache: 'npm'
-        cache-dependency-path: './frontend/Client/package-lock.json'
+        cache-dependency-path: './frontend/package.json'
 
     - name: Install Dependencies
       run: npm ci
