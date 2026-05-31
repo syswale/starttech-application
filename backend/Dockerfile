@@ -1,5 +1,5 @@
 # Build Stage
-FROM golang:1.21-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ WORKDIR /root/
 # Copy the pre-built binary file from the previous stage
 COPY --from=builder /app/main .
 
-# Expose port (assuming your Go app runs on 8080)
+# Expose port
 EXPOSE 8080
 
 # Command to run the executable
