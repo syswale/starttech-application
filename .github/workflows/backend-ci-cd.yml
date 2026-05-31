@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./backend/MuchToDo
 
     steps:
     - name: Checkout Code
@@ -27,7 +27,7 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.21'
-        cache-dependency-path: './backend/'
+        cache-dependency-path: './backend/MuchToDo/go.sum'
 
     - name: Run Unit Tests
       run: go test -v ./...
