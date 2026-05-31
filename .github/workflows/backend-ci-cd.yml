@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/Server/MuchToDo
+        working-directory: ./backend/Server
 
     steps:
     - name: Checkout Code
@@ -69,7 +69,7 @@ jobs:
       run: |
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        
+
     - name: Push to Amazon ECR
       run: |
         docker push ${{ env.FULL_IMAGE }}
