@@ -25,16 +25,17 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        
+        cache: 'npm'
+        cache-dependency-path: './frontend/Client/package-lock.json'
 
     - name: Install Dependencies
-      run: npm install
+      run: npm ci
 
     - name: Security Scan
-      run: npm audit --audit-level=high || true
+      run: npm audit --audit-level=high
 
     - name: Run Tests
-      run: npm test -- --passWithNoTests || true
+      run: npm test -- --passWithNoTests
 
     - name: Build React App
       run: npm run build
