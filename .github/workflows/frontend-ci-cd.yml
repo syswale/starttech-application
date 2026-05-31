@@ -9,7 +9,6 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  S3_BUCKET: starttech-v2-frontend-ll3mku
 
 jobs:
   build-and-deploy:
@@ -45,7 +44,7 @@ jobs:
 
     - name: Deploy to S3
       run: |
-        aws s3 sync dist/ s3://${{ env.S3_BUCKET }} --delete 
+        aws s3 sync dist/ s3://${{ secrets.S3_BUCKET }} --delete 
 
     - name: Invalidate CloudFront Cache
       run: |
